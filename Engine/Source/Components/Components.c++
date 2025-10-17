@@ -1,0 +1,1 @@
+﻿// Copyright Vibe Coding. All Rights Reserved.
