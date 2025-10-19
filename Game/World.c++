@@ -11,17 +11,19 @@ EWorld::EWorld()
 
 void EWorld::Initialize()
 {
-    Entity Player = CreateEntity();
+    const ECS::Entity Player = CreateEntity();
+    ArchetypeManager.RegisterEntity(Player);
+    ArchetypeManager.AddComponent(Player, ECS::Transform{0,0});
 }
 
-Entity EWorld::CreateEntity()
+ECS::Entity EWorld::CreateEntity()
 {
     return EntityManager.CreateEntity();
 }
 
-void EWorld::DestroyEntity(Entity EntityID)
+void EWorld::DestroyEntity(ECS::Entity EntityID)
 {
-    ArchetypeManager.RemoveEntity(EntityID);
+    ArchetypeManager.UnregisterEntity(EntityID);
 }
 
 void EWorld::Update(float InDeltaTime) const

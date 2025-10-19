@@ -5,8 +5,8 @@
 #include <memory>
 
 #include "Application.h++"
+#include "World.h++"
 
-class EWorld;
 
 class EGame final : public IApplication
 {

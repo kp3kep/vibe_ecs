@@ -4,8 +4,6 @@
 
 #include "Game.h++"
 
-#include "World.h++"
-
 
 void EGame::OnBegin()
 {

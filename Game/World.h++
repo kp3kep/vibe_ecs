@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "Components/ArchetypeManager.h++"
+#include "ArchetypeManager.h++"
 #include "SystemManager.h++"
-#include "Entity/EntityManager.h++"
+#include "EntityManager.h++"
 
 class EWorld
 {
@@ -14,8 +14,8 @@ public:
 
     void Initialize();
 
-    Entity CreateEntity();
-    void DestroyEntity(Entity EntityID);
+    ECS::Entity CreateEntity();
+    void DestroyEntity(ECS::Entity EntityID);
 
     template<typename SystemType, std::enable_if_t<std::is_base_of_v<ISystemBase, SystemType>, bool> = true>
     void RegisterSystem();
@@ -23,8 +23,8 @@ public:
     void Update(float InDeltaTime) const;
 
 private:
-    EEntityManager EntityManager;
-    EArchetypeManager ArchetypeManager;
+    ECS::EEntityManager EntityManager;
+    ECS::EArchetypeManager ArchetypeManager;
     ESystemManager SystemManager;
 };
 

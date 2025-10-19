@@ -36,7 +36,7 @@ int IApplication::Run()
         // Input->Update();
         static uint32_t count = 0;
         ++count;
-        if (count > 100)
+        if (count > 5)
             break;
 
         auto CurrentTick = Time::now();
