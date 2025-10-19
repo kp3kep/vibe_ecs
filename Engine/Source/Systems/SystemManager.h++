@@ -11,7 +11,7 @@ class ESystemManager
 {
 public:
     template<typename SystemType, typename std::enable_if_t<std::is_base_of_v<ISystemBase, SystemType>, bool> = true>
-    void RegisterSystem();
+    SystemType* RegisterSystem();
 
     void Update(float InDeltaTime) const;
 
@@ -20,8 +20,10 @@ private:
 };
 
 template <typename SystemType, typename std::enable_if_t<std::is_base_of_v<ISystemBase, SystemType>, bool>>
-void ESystemManager::RegisterSystem()
+SystemType* ESystemManager::RegisterSystem()
 {
     auto System = std::make_unique<SystemType>();
+    SystemType* RawPtr = System.get();
     Systems.push_back(std::move(System));
+    return RawPtr;
 }

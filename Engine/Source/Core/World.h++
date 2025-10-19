@@ -31,5 +31,6 @@ private:
 template <typename SystemType, std::enable_if_t<std::is_base_of_v<ISystemBase, SystemType>, bool>>
 void EWorld::RegisterSystem()
 {
-    SystemManager.RegisterSystem<SystemType>();
+    SystemType* NewSystem = SystemManager.RegisterSystem<SystemType>();
+    NewSystem->SetArchetypeManager(&ArchetypeManager);
 }

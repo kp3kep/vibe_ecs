@@ -5,6 +5,8 @@
 
 #include "Application.h++"
 
+#include <iostream>
+
 IApplication::IApplication() : IsFailed(false)
 {
     //TODO: Create window and input here
@@ -44,6 +46,8 @@ int IApplication::Run()
         LastTick = CurrentTick;
 
         OnUpdate(DeltaTime.count());
+
+        std::cout << DeltaTime.count() << std::endl;
 
         // Graphics->Begin();
         // OnRender();

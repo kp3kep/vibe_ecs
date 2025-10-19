@@ -2,12 +2,13 @@
 
 #pragma once
 
+#include <cassert>
 #include <memory>
 #include <unordered_map>
 #include <utility>
 
 #include "Archetype.h++"
-#include "Components.h++"
+#include "ComponentHelper.h++"
 #include "EntityManager.h++"
 
 namespace ECS
@@ -47,7 +48,7 @@ namespace ECS
         /**
          * @brief Выполняет запрос (Query) по всем подходящим архетипам.
          */
-        template<typename... Components, typename Func>
+        template<typename Write, typename... Reads, typename Func>
         void Query(Func&& QueryFunction);
 
     private:
@@ -179,11 +180,11 @@ namespace ECS
         return SetContains(Archetype->Key, Component::TypeId<T>());
     }
 
-    template <typename ... Components, typename Func>
+    template <typename Write, typename... Reads, typename Func>
     void EArchetypeManager::Query(Func&& QueryFunction)
     {
         // 1. Создаем ключ запроса (один раз)
-        const ComponentSet QueryKey = Component::MakeSet<Components...>();
+        const ComponentSet QueryKey = Component::MakeSet<Write, Reads...>();
 
         // 2. Итерируемся по плоскому списку архетипов
         for (EArchetype* Archetype : ArchetypeList)
@@ -196,7 +197,8 @@ namespace ECS
                 {
                     QueryFunction(
                         Archetype->Entities[i],
-                        (Archetype->GetComponentVector<Components>()[i])...
+                        Archetype->GetComponentVector<Write>()[i],
+                        (static_cast<const Reads&>(Archetype->GetComponentVector<Reads>()[i]))...
                     );
                 }
             }

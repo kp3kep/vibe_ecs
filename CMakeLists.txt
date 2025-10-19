@@ -4,14 +4,18 @@ project(Engine_ECS)
 set(CMAKE_CXX_STANDARD 26)
 
 include_directories(include)
-file(GLOB_RECURSE ENGINE Engine/Source/*.c++ Game/*.c++)
+file(GLOB_RECURSE ENGINE
+        Engine/Source/*.c++
+        Game/*.c++
+)
 
-add_executable(Engine_ECS ${ENGINE} main.c++)
+add_executable(Engine_ECS ${ENGINE} Game/Source/main.c++)
 
 target_include_directories(Engine_ECS PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/Engine/Source"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Engine/Source/Components"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Engine/Source/Entity"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Engine/Source/Core"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Engine/Source/ECS"
         "${CMAKE_CURRENT_SOURCE_DIR}/Engine/Source/Systems"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Game"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Game/Source"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Game/Systems"
 )
