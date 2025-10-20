@@ -7,11 +7,14 @@
 
 namespace ECS
 {
-    EArchetype::EArchetype(ComponentSet InKey): Key(std::move(InKey))
+    EArchetype::EArchetype(const ComponentSet& InKey): Key(InKey)
     {
-        for (const ComponentTypeId TypeId : Key)
+        for (ComponentTypeId TypeId = 0; TypeId < MAX_COMPONENTS; ++TypeId)
         {
-            ComponentsMap[TypeId] = EComponentFactory::CreateVector(TypeId);
+            if (Key.test(TypeId))
+            {
+                ComponentsMap[TypeId] = EComponentFactory::CreateVector(TypeId);
+            }
         }
     }
 

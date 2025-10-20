@@ -3,94 +3,75 @@
 #pragma once
 
 #include <algorithm>
+#include <bitset>
 #include <vector>
 
 namespace ECS
 {
-    using ComponentTypeId = uintptr_t;
-    using ComponentSet = std::vector<ComponentTypeId>;
+    constexpr size_t MAX_COMPONENTS = 256;
+    using ComponentSet = std::bitset<MAX_COMPONENTS>;
 
-    struct ComponentSetHash
+    using ComponentTypeId = uint32_t;
+
+    namespace Internal
     {
-        size_t operator()(const ComponentSet& s) const noexcept
+        class ComponentRegistry
         {
-            // 64-bit FNV-1a
-            uint64_t h = 1469598103934665603ull;
-            for (const auto v : s) {
-                h ^= v;
-                h *= 1099511628211ull;
+        public:
+            template<typename>
+            static ComponentTypeId TypeId()
+            {
+                static const ComponentTypeId TypeId = Counter()++;
+                return TypeId;
             }
-            return h;
-        }
-    };
+        private:
+            static ComponentTypeId& Counter()
+            {
+                static ComponentTypeId Count = 0;
+                return Count;
+            }
+        };
+    } // namespace Internal
 
     namespace Component
     {
         template <typename T>
         ComponentTypeId TypeId()
         {
-            static char dummy;
-            return reinterpret_cast<ComponentTypeId>(&dummy);
+            return Internal::ComponentRegistry::TypeId<T>();
         }
 
         template <typename... Ts>
         ComponentSet MakeSet()
         {
-            ComponentSet Result;
-            Result.reserve(sizeof...(Ts));
-            (Result.push_back(TypeId<Ts>()), ...);
-            std::ranges::sort(Result);
-            Result.erase(std::ranges::unique(Result).begin(), Result.end());
-            return Result;
-        }
-
-        inline bool SetContains(const ComponentSet& InSet, ComponentTypeId InId)
-        {
-            return std::ranges::binary_search(InSet, InId);
-        }
-
-        inline ComponentSet SetUnion(const ComponentSet& InSet, ComponentTypeId ComponentId)
-        {
-            ComponentSet Result;
-            Result.reserve(InSet.size() + 1);
-            const auto Iterator = std::ranges::lower_bound(InSet, ComponentId);
-            Result.insert(Result.end(), InSet.begin(), Iterator);
-
-            if (Iterator == InSet.end() || *Iterator != ComponentId)
-            {
-                Result.push_back(ComponentId);
-            }
-
-            Result.insert(Result.end(), Iterator, InSet.end());
-            return Result;
-        }
-
-        inline ComponentSet SetUnion(const ComponentSet& FirstSet, const ComponentSet& SecondSet)
-        {
-            ComponentSet Result;
-            Result.reserve(FirstSet.size() + SecondSet.size());
-            std::ranges::set_union(FirstSet, SecondSet, std::back_inserter(Result));
-            return Result;
-        }
-
-        inline ComponentSet SetSubtract(const ComponentSet& SourceSet, ComponentTypeId ComponentToRemove)
-        {
-            ComponentSet Result;
-            Result.reserve(SourceSet.size());
-            for (auto Component : SourceSet)
-            {
-                if (Component != ComponentToRemove)
-                {
-                    Result.push_back(Component);
-                }
-            }
-            return Result;
+            ComponentSet set;
+            (set.set(TypeId<Ts>()), ...);
+            return set;
         }
 
         inline bool ContainsSubset(const ComponentSet& BaseSet, const ComponentSet& Subset)
         {
             // sub ⊆ sup
-            return std::ranges::includes(BaseSet, Subset);
+            return (BaseSet & Subset) == Subset;
+        }
+
+        inline ComponentSet SetUnion(const ComponentSet& InSet, ComponentTypeId ComponentId)
+        {
+            auto Result = InSet;
+            Result.set(ComponentId);
+            return Result;
+        }
+
+        inline ComponentSet SetUnion(const ComponentSet& FirstSet, const ComponentSet& SecondSet)
+        {
+            return FirstSet | SecondSet;
+        }
+
+        inline ComponentSet SetSubtract(const ComponentSet& SourceSet, ComponentTypeId ComponentToRemove)
+        {
+            auto Result = SourceSet;
+            Result.reset(ComponentToRemove);
+            return Result;
         }
     }
 

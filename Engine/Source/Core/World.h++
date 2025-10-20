@@ -5,6 +5,7 @@
 #include "ArchetypeManager.h++"
 #include "SystemManager.h++"
 #include "EntityManager.h++"
+#include "ThreadPool.h++"
 
 class EWorld
 {
@@ -28,6 +29,8 @@ private:
     ECS::EEntityManager EntityManager;
     ECS::EArchetypeManager ArchetypeManager;
     ESystemManager SystemManager;
+
+    EThreadPool ThreadPool;
 };
 
 template <typename SystemType, std::enable_if_t<std::is_base_of_v<ISystemBase, SystemType>, bool>>

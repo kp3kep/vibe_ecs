@@ -23,7 +23,7 @@ namespace ECS
          * @param InKey Отсортированный вектор ComponentTypeId,
          * определяющий этот архетип.
          */
-        explicit EArchetype(ComponentSet InKey);
+        explicit EArchetype(const ComponentSet& InKey);
 
         // Запрещаем копирование, разрешаем только перемещение
         EArchetype(const EArchetype&) = delete;

@@ -10,6 +10,7 @@
 #include "Archetype.h++"
 #include "ComponentHelper.h++"
 #include "EntityManager.h++"
+#include "ThreadPool.h++"
 
 namespace ECS
 {
@@ -51,6 +52,8 @@ namespace ECS
         template<typename Write, typename... Reads, typename Func>
         void Query(Func&& QueryFunction);
 
+        void SetPool(EThreadPool* ThreadPool) { Pool = ThreadPool;}
+
     private:
         EArchetype* GetOrCreateArchetype(const ComponentSet& key);
         void EnsureRecordSize(uint32_t NewSize);
@@ -63,9 +66,11 @@ namespace ECS
         };
 
         std::vector<EntityRecord> EntityRecords;
-        std::unordered_map<ComponentSet, std::unique_ptr<EArchetype>, ComponentSetHash> Archetypes;
+        std::unordered_map<ComponentSet, std::unique_ptr<EArchetype>> Archetypes;
         std::vector<EArchetype*> ArchetypeList;
         EArchetype* RootArchetype;
+
+        EThreadPool* Pool = nullptr;
     };
 
     template <typename T>
@@ -86,11 +91,14 @@ namespace ECS
         const uint32_t ToRow = ToArchetype->AddEntity(InEntity);
 
         // 4. Перемещаем старые данные
-        for (ComponentTypeId TypeId : FromArchetype->Key)
+        for (ComponentTypeId TypeId = 0; TypeId < MAX_COMPONENTS; ++TypeId)
         {
-            IComponentVector* FromVector = FromArchetype->ComponentsMap.at(TypeId).get();
-            IComponentVector* ToVector = ToArchetype->ComponentsMap.at(TypeId).get();
-            FromVector->MoveElement(FromRow, ToVector, ToRow);
+            if (ToArchetype->Key.test(TypeId) && FromArchetype->Key.test(TypeId))
+            {
+                IComponentVector* FromVector = FromArchetype->ComponentsMap.at(TypeId).get();
+                IComponentVector* ToVector = ToArchetype->ComponentsMap.at(TypeId).get();
+                FromVector->MoveElement(FromRow, ToVector, ToRow);
+            }
         }
 
         // 5. Устанавливаем значение нового компонента
@@ -130,11 +138,14 @@ namespace ECS
 
         // 4. Перемещаем старые данные (те, что есть в новом архетипе)
         //    Итерируем по ключу *назначения* - это проще.
-        for (ComponentTypeId TypeId : ToArchetype->Key)
+        for (ComponentTypeId TypeId = 0; TypeId < MAX_COMPONENTS; ++TypeId)
         {
-            IComponentVector* FromVector = FromArchetype->ComponentsMap.at(TypeId).get();
-            IComponentVector* ToVector = ToArchetype->ComponentsMap.at(TypeId).get();
-            FromVector->MoveElement(FromRow, ToVector, ToRow);
+            if (ToArchetype->Key.test(TypeId) && FromArchetype->Key.test(TypeId))
+            {
+                IComponentVector* FromVector = FromArchetype->ComponentsMap.at(TypeId).get();
+                IComponentVector* ToVector = ToArchetype->ComponentsMap.at(TypeId).get();
+                FromVector->MoveElement(FromRow, ToVector, ToRow);
+            }
         }
 
         // 5. Удаляем сущность из старого архетипа
@@ -185,12 +196,16 @@ namespace ECS
     {
         // 1. Создаем ключ запроса (один раз)
         const ComponentSet QueryKey = Component::MakeSet<Write, Reads...>();
+        std::vector<std::future<void>> Futures;
 
         // 2. Итерируемся по плоскому списку архетипов
         for (EArchetype* Archetype : ArchetypeList)
         {
             // 3. Проверяем, содержит ли архетип все нужные компоненты
-            if (Component::ContainsSubset(Archetype->Key, QueryKey))
+            if (!Component::ContainsSubset(Archetype->Key, QueryKey))
+                continue;
+
+            auto ArchetypeJob = [Archetype, QueryFunction]()
             {
                 auto& Entities = Archetype->Entities;
                 auto& WriteVec = Archetype->GetComponentVector<Write>();
@@ -214,7 +229,12 @@ namespace ECS
                         ReadVecsTuple
                     );
                 }
-            }
+            };
+            Futures.push_back(Pool->enqueue(ArchetypeJob));
+        }
+        for (auto& Future : Futures)
+        {
+            Future.get();
         }
     }
 } // namespace ECS

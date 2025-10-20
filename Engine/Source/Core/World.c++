@@ -9,6 +9,9 @@
 
 EWorld::EWorld()
 {
+    SystemManager.SetPool(&ThreadPool);
+    ArchetypeManager.SetPool(&ThreadPool);
+
     RegisterSystem<EMovementSystem>();
     RegisterSystem<EHeathSystem>();
     RegisterSystem<EVelocitySystem>();

@@ -7,10 +7,10 @@
 #include <future>
 #include <queue>
 
-class ThreadPool
+class EThreadPool
 {
 public:
-    explicit ThreadPool(const size_t ThreadCount = std::thread::hardware_concurrency())
+    explicit EThreadPool(const size_t ThreadCount = std::thread::hardware_concurrency())
     {
         for (size_t ThreadIndex = 0; ThreadIndex < ThreadCount; ++ThreadIndex)
         {
@@ -61,7 +61,7 @@ public:
         return Future;
     }
 
-    ~ThreadPool()
+    ~EThreadPool()
     {
         {
             std::unique_lock Lock(QueueMutex);
