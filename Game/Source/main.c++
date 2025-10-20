@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-    EGame Game{};
+    Game::EGame Game{};
 
     return Game.Run();
 }

@@ -2,6 +2,9 @@
 
 #pragma once
 
+#include <cmath>
+#include <iostream>
+
 #include "ArchetypeManager.h++"
 #include "ComponentsList.h++"
 #include "SystemBase.h++"
@@ -13,13 +16,18 @@ public:
 
     void Update(float InDeltaTime) override
     {
+        float SumOfX = 0.0f;
         ArchetypeManager->Query<ECS::Transform, ECS::Velocity>(
-                    [InDeltaTime](ECS::Entity e, ECS::Transform& t, const ECS::Velocity& v)
+                    [InDeltaTime, &SumOfX](ECS::Entity, ECS::Transform& t, const ECS::Velocity& v)
                     {
-                        t.x += v.dx * InDeltaTime;
-                        t.y += v.dy * InDeltaTime;
+                        t.x += std::sin(v.dx) * InDeltaTime;
+                        t.y += std::sin(v.dy) * InDeltaTime;
+
+                        SumOfX += t.x / t.y;
                     }
                 );
+
+        std::cout << "Sum: " << SumOfX << '\r';
     }
 
 private:

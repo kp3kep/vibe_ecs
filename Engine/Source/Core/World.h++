@@ -22,6 +22,8 @@ public:
 
     void Update(float InDeltaTime) const;
 
+    void StressTest();
+
 private:
     ECS::EEntityManager EntityManager;
     ECS::EArchetypeManager ArchetypeManager;

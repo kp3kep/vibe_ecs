@@ -192,13 +192,26 @@ namespace ECS
             // 3. Проверяем, содержит ли архетип все нужные компоненты
             if (Component::ContainsSubset(Archetype->Key, QueryKey))
             {
-                const size_t EntityCount = Archetype->Entities.size();
+                auto& Entities = Archetype->Entities;
+                auto& WriteVec = Archetype->GetComponentVector<Write>();
+
+                auto ReadVecsTuple = std::make_tuple(
+                    std::ref(Archetype->GetComponentVector<Reads>())...
+                );
+
+                const size_t EntityCount = Entities.size();
                 for (size_t i = 0; i < EntityCount; ++i)
                 {
-                    QueryFunction(
-                        Archetype->Entities[i],
-                        Archetype->GetComponentVector<Write>()[i],
-                        (static_cast<const Reads&>(Archetype->GetComponentVector<Reads>()[i]))...
+                    std::apply(
+                        [&](auto&... ReadVecs) { // ReadVecs - это ссылки на векторы
+                            QueryFunction(
+                                Entities[i],
+                                WriteVec[i],
+                                // .get() нужен, т.к. мы использовали std::ref
+                                (static_cast<const Reads&>(ReadVecs[i]))...
+                            );
+                        },
+                        ReadVecsTuple
                     );
                 }
             }
