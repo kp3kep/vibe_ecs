@@ -17,7 +17,7 @@ namespace ECS
         static void RegisterComponent()
         {
             const ComponentTypeId TypeId = Component::TypeId<T>();
-            GetComponentFactory()[TypeId] = []->std::unique_ptr<IComponentVector>
+            GetComponentFactory()[TypeId] = []()->std::unique_ptr<IComponentVector>
             {
                 return std::make_unique<EComponentVector<T>>();
             };

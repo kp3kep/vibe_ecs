@@ -2,14 +2,38 @@
 
 #include <chrono>
 #include <cstdlib>
+#include <iostream>
 
 #include "Application.h++"
-
-#include <iostream>
+#include "SFML/Graphics.hpp"
 
 IApplication::IApplication() : IsFailed(false)
 {
-    //TODO: Create window and input here
+    sf::RenderWindow window(sf::VideoMode({800, 600}), "Vibe ECS Engine");
+
+    constexpr sf::Color Japan = {150, 50, 50, 255};
+
+    sf::CircleShape shape(100.f);
+    shape.setFillColor(Japan);
+
+
+    while (window.isOpen())
+    {
+        while (auto event = window.pollEvent())
+        {
+            if (event.value().is<sf::Event::Closed>())
+            {
+                window.close();
+            }
+        }
+
+
+        window.clear();
+
+        window.draw(shape);
+
+        window.display();
+    }
 }
 
 IApplication::~IApplication()
