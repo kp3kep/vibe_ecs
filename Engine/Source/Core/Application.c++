@@ -1,79 +1,77 @@
 ﻿// Copyright Vibe Coding. All Rights Reserved.
 
-#include <chrono>
-#include <cstdlib>
-#include <iostream>
-
 #include "Application.h++"
+#include "Input.h++"
+#include "Graphics.h++"
 #include "SFML/Graphics.hpp"
+
+#include <chrono>
+#include <iostream>
 
 IApplication::IApplication() : IsFailed(false)
 {
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "Vibe ECS Engine");
-
-    constexpr sf::Color Japan = {150, 50, 50, 255};
-
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(Japan);
-
-
-    while (window.isOpen())
+    // 1. Создаем наши классы-обертки
+    try
     {
-        while (auto event = window.pollEvent())
-        {
-            if (event.value().is<sf::Event::Closed>())
-            {
-                window.close();
-            }
-        }
-
-
-        window.clear();
-
-        window.draw(shape);
-
-        window.display();
+        Input = std::make_unique<FInput>();
+        Graphics = std::make_unique<FGraphics>();
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Failed to initialize Application: " << e.what() << std::endl;
+        IsFailed = true;
     }
 }
 
-IApplication::~IApplication()
-{
-    // delete Input;
-    // delete Graphics;
-}
+// Виртуальный деструктор нужен для unique_ptr
+IApplication::~IApplication() = default;
+
 
 int IApplication::Run()
 {
     if (IsFailed)
     {
-        system("Pause");
         return 1;
     }
 
-    using Time = std::chrono::high_resolution_clock;
-    using Seconds = std::chrono::duration<float>;
-
+    // OnBegin() - EGame создаст здесь World
     OnBegin();
 
+    using Time = std::chrono::high_resolution_clock;
+    using Seconds = std::chrono::duration<float>;
     auto LastTick = Time::now();
 
-    while (true /*!Input->IsWillQuit()*/)
+    // ===============================================
+    //           НАШ НОВЫЙ ИГРОВОЙ ЦИКЛ
+    // ===============================================
+    // (Он работает, пока окно SFML открыто)
+    while (Graphics->IsOpen())
     {
-        // Input->Update();
-        static uint32_t count = 0;
-        if (++count > 5) break;
+        // 1. СЧИТЫВАЕМ ИНПУТ
+        // (Этот PollEvents также проверит sf::Event::Closed)
+        Input->PollEvents(Graphics->GetWindow());
+        
+        // Если Input сказал "выходим"
+        if (Input->IsWillQuit())
+        {
+            break; // Выходим из цикла
+        }
 
+        // 2. СЧИТАЕМ ВРЕМЯ
         auto CurrentTick = Time::now();
         Seconds DeltaTime = CurrentTick - LastTick;
         LastTick = CurrentTick;
 
+        // 3. ОБНОВЛЯЕМ ЛОГИКУ
+        // (Вызываем EGame::OnUpdate -> World->Update -> все Системы)
         OnUpdate(DeltaTime.count());
+        
+        // std::cout << DeltaTime.count() << std::endl; // Раскомментируй для FPS
 
-        std::cout << DeltaTime.count() << std::endl;
-
-        // Graphics->Begin();
-        // OnRender();
-        // Graphics->End();
+        // 4. РИСУЕМ
+        Graphics->Begin();  // (window.clear)
+        OnRender();         // (Вызываем EGame::OnRender -> S_RenderSystem)
+        Graphics->End();    // (window.display)
     }
 
     return 0;

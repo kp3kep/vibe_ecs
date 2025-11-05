@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/dotahub/Projects/ECS engine/vibe_ecs/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

@@ -1,0 +1,27 @@
+[ 11%] Building CXX object CMakeFiles/Engine_ECS.dir/Engine/Source/Core/Application.c++.o
+In file included from /home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core/Application.c++:4:
+/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core/Input.h++:13:21: error: ‘sf::RenderWindow’ has not been declared
+   13 |     void PollEvents(sf::RenderWindow& InWindow)
+      |                     ^~
+/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core/Input.h++: In member function ‘void FInput::PollEvents(int&)’:
+/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core/Input.h++:19:25: error: request for member ‘pollEvent’ in ‘InWindow’, which is of non-class type ‘int’
+   19 |         while (InWindow.pollEvent(event))
+      |                         ^~~~~~~~~
+/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core/Application.c++: In member function ‘int IApplication::Run()’:
+/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core/Application.c++:43:25: error: expected primary-expression before ‘.’ token
+   43 |     auto LastTick = Time.now();
+      |                         ^
+/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core/Application.c++:53:46: error: cannot convert ‘sf::RenderWindow’ to ‘int&’
+   53 |         Input->PollEvents(Graphics->GetWindow());
+      |                           ~~~~~~~~~~~~~~~~~~~^~
+      |                                              |
+      |                                              sf::RenderWindow
+/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core/Input.h++:13:39: note:   initializing argument 1 of ‘void FInput::PollEvents(int&)’
+   13 |     void PollEvents(sf::RenderWindow& InWindow)
+      |                     ~~~~~~~~~~~~~~~~~~^~~~~~~~
+/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core/Application.c++:62:32: error: expected primary-expression before ‘.’ token
+   62 |         auto CurrentTick = Time.now();
+      |                                ^
+make[2]: *** [CMakeFiles/Engine_ECS.dir/build.make:79: CMakeFiles/Engine_ECS.dir/Engine/Source/Core/Application.c++.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:87: CMakeFiles/Engine_ECS.dir/all] Error 2
+make: *** [Makefile:91: all] Error 2

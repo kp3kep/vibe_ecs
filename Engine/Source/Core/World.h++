@@ -22,6 +22,7 @@ public:
     void RegisterSystem();
 
     void Update(float InDeltaTime) const;
+    void Render() const;
 
     void StressTest();
 

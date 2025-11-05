@@ -37,6 +37,11 @@ void EWorld::Update(float InDeltaTime) const
     SystemManager.Update(InDeltaTime);
 }
 
+void EWorld::Render() const
+{
+    //SystemManager.Render();
+}
+
 void EWorld::StressTest()
 {
     constexpr int ENTITY_COUNT = 1'000'000;

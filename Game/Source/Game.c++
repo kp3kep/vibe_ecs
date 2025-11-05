@@ -26,4 +26,9 @@ namespace Game
     {
         World->Update(InDeltaTime);
     }
+
+    void EGame::OnRender()
+    {
+        World->Render();
+    }
 }

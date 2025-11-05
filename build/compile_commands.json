@@ -1,0 +1,50 @@
+[
+{
+  "directory": "/home/dotahub/Projects/ECS engine/vibe_ecs/build",
+  "command": "/usr/bin/g++  -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/ECS\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Systems\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Systems\" -g -std=gnu++23 -o CMakeFiles/Engine_ECS.dir/Engine/Source/Core/Application.c++.o -c \"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core/Application.c++\"",
+  "file": "/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core/Application.c++",
+  "output": "CMakeFiles/Engine_ECS.dir/Engine/Source/Core/Application.c++.o"
+},
+{
+  "directory": "/home/dotahub/Projects/ECS engine/vibe_ecs/build",
+  "command": "/usr/bin/g++  -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/ECS\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Systems\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Systems\" -g -std=gnu++23 -o CMakeFiles/Engine_ECS.dir/Engine/Source/Core/World.c++.o -c \"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core/World.c++\"",
+  "file": "/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core/World.c++",
+  "output": "CMakeFiles/Engine_ECS.dir/Engine/Source/Core/World.c++.o"
+},
+{
+  "directory": "/home/dotahub/Projects/ECS engine/vibe_ecs/build",
+  "command": "/usr/bin/g++  -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/ECS\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Systems\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Systems\" -g -std=gnu++23 -o CMakeFiles/Engine_ECS.dir/Engine/Source/ECS/Archetype.c++.o -c \"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/ECS/Archetype.c++\"",
+  "file": "/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/ECS/Archetype.c++",
+  "output": "CMakeFiles/Engine_ECS.dir/Engine/Source/ECS/Archetype.c++.o"
+},
+{
+  "directory": "/home/dotahub/Projects/ECS engine/vibe_ecs/build",
+  "command": "/usr/bin/g++  -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/ECS\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Systems\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Systems\" -g -std=gnu++23 -o CMakeFiles/Engine_ECS.dir/Engine/Source/ECS/ArchetypeManager.c++.o -c \"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/ECS/ArchetypeManager.c++\"",
+  "file": "/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/ECS/ArchetypeManager.c++",
+  "output": "CMakeFiles/Engine_ECS.dir/Engine/Source/ECS/ArchetypeManager.c++.o"
+},
+{
+  "directory": "/home/dotahub/Projects/ECS engine/vibe_ecs/build",
+  "command": "/usr/bin/g++  -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/ECS\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Systems\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Systems\" -g -std=gnu++23 -o CMakeFiles/Engine_ECS.dir/Engine/Source/ECS/EntityManager.c++.o -c \"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/ECS/EntityManager.c++\"",
+  "file": "/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/ECS/EntityManager.c++",
+  "output": "CMakeFiles/Engine_ECS.dir/Engine/Source/ECS/EntityManager.c++.o"
+},
+{
+  "directory": "/home/dotahub/Projects/ECS engine/vibe_ecs/build",
+  "command": "/usr/bin/g++  -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/ECS\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Systems\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Systems\" -g -std=gnu++23 -o CMakeFiles/Engine_ECS.dir/Engine/Source/Systems/SystemManager.c++.o -c \"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Systems/SystemManager.c++\"",
+  "file": "/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Systems/SystemManager.c++",
+  "output": "CMakeFiles/Engine_ECS.dir/Engine/Source/Systems/SystemManager.c++.o"
+},
+{
+  "directory": "/home/dotahub/Projects/ECS engine/vibe_ecs/build",
+  "command": "/usr/bin/g++  -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/ECS\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Systems\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Systems\" -g -std=gnu++23 -o CMakeFiles/Engine_ECS.dir/Game/Source/Game.c++.o -c \"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Source/Game.c++\"",
+  "file": "/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Source/Game.c++",
+  "output": "CMakeFiles/Engine_ECS.dir/Game/Source/Game.c++.o"
+},
+{
+  "directory": "/home/dotahub/Projects/ECS engine/vibe_ecs/build",
+  "command": "/usr/bin/g++  -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Core\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/ECS\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Engine/Source/Systems\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Source\" -I\"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Systems\" -g -std=gnu++23 -o CMakeFiles/Engine_ECS.dir/Game/Source/main.c++.o -c \"/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Source/main.c++\"",
+  "file": "/home/dotahub/Projects/ECS engine/vibe_ecs/Game/Source/main.c++",
+  "output": "CMakeFiles/Engine_ECS.dir/Game/Source/main.c++.o"
+}
+]

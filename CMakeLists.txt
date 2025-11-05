@@ -3,11 +3,13 @@ project(Engine_ECS)
 
 set(CMAKE_CXX_STANDARD 26)
 
-set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/SFML-3.0.2/lib/cmake/SFML")
+# Убрали set(SFML_DIR...)
+# Убрали версию "3.0.2"
+find_package(SFML REQUIRED COMPONENTS system window graphics)
 
-find_package(SFML 3.0.2 REQUIRED COMPONENTS System Window Graphics)
+# Сказали, где лежат .h++
+include_directories(${SFML_INCLUDE_DIR})
 
-include_directories(include)
 file(GLOB_RECURSE ENGINE
         Engine/Source/*.c++
         Game/*.c++
@@ -24,6 +26,10 @@ target_include_directories(Engine_ECS PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/Game/Systems"
 )
 
+# ----------------- ГЛАВНОЕ ИЗМЕНЕНИЕ -----------------
+# Линкуем не ${SFML_GRAPHICS_LIBRARY} и т.д.,
+# а ОДНУ "общую" переменную, которую заполнил FindSFML
 target_link_libraries(Engine_ECS PUBLIC
-        SFML::Graphics
-)
+        sfml-graphics
+        sfml-window
+        sfml-system)
