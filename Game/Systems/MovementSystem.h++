@@ -16,18 +16,13 @@ public:
 
     void Update(float InDeltaTime) override
     {
-        float SumOfX = 0.0f;
         ArchetypeManager->Query<ECS::Transform, ECS::Velocity>(
-                    [InDeltaTime, &SumOfX](ECS::Entity, ECS::Transform& t, const ECS::Velocity& v)
+                    [InDeltaTime](ECS::Entity, ECS::Transform& Transform, const ECS::Velocity& Velocity)
                     {
-                        t.x += std::sin(v.dx) * InDeltaTime;
-                        t.y += std::sin(v.dy) * InDeltaTime;
-
-                        SumOfX += t.x / t.y;
+                        Transform.x += Velocity.dx * InDeltaTime;
+                        Transform.y += Velocity.dy * InDeltaTime;
                     }
                 );
-
-        std::cout << "Sum: " << SumOfX << '\r';
     }
 
 private:

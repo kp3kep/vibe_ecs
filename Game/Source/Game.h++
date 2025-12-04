@@ -16,6 +16,7 @@ namespace Game
 
         void OnBegin() override;
         void OnUpdate(float InDeltaTime) override;
+        void OnRender() override;
 
     private:
         std::unique_ptr<EWorld> World;

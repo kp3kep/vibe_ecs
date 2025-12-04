@@ -24,6 +24,7 @@ namespace ECS
                 static const ComponentTypeId TypeId = Counter()++;
                 return TypeId;
             }
+
         private:
             static ComponentTypeId& Counter()
             {
@@ -51,7 +52,7 @@ namespace ECS
 
         inline bool ContainsSubset(const ComponentSet& BaseSet, const ComponentSet& Subset)
         {
-            // sub ⊆ sup
+            // sub ⊆ base
             return (BaseSet & Subset) == Subset;
         }
 
@@ -133,7 +134,7 @@ namespace ECS
     };
 
     template <typename T>
- void EComponentVector<T>::AddEmptyElement()
+    void EComponentVector<T>::AddEmptyElement()
     {
         Data.emplace_back();
     }

@@ -1,79 +1,63 @@
 ﻿// Copyright Vibe Coding. All Rights Reserved.
 
-#include <chrono>
-#include <cstdlib>
-#include <iostream>
-
 #include "Application.h++"
-#include "SFML/Graphics.hpp"
+#include "Input.h++"
+#include "Graphics.h++"
+
+#include <chrono>
+#include <iostream>
+#include <exception>
+
+// Для теста красного круга
+#include "SFML/Graphics/CircleShape.hpp"
 
 IApplication::IApplication() : IsFailed(false)
 {
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "Vibe ECS Engine");
-
-    constexpr sf::Color Japan = {150, 50, 50, 255};
-
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(Japan);
-
-
-    while (window.isOpen())
+    try
     {
-        while (auto event = window.pollEvent())
-        {
-            if (event.value().is<sf::Event::Closed>())
-            {
-                window.close();
-            }
-        }
-
-
-        window.clear();
-
-        window.draw(shape);
-
-        window.display();
+        Input = std::make_unique<FInput>();
+        Graphics = std::make_unique<FGraphics>();
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Failed to initialize Application: " << e.what() << std::endl;
+        IsFailed = true;
     }
 }
 
-IApplication::~IApplication()
-{
-    // delete Input;
-    // delete Graphics;
-}
+IApplication::~IApplication() = default;
 
 int IApplication::Run()
 {
-    if (IsFailed)
-    {
-        system("Pause");
-        return 1;
-    }
-
-    using Time = std::chrono::high_resolution_clock;
-    using Seconds = std::chrono::duration<float>;
+    if (IsFailed) return 1;
 
     OnBegin();
 
-    auto LastTick = Time::now();
+    using FClock = std::chrono::high_resolution_clock;
+    using Seconds = std::chrono::duration<float>;
+    auto LastTick = FClock::now();
 
-    while (true /*!Input->IsWillQuit()*/)
+    // --- ТЕСТОВЫЙ ОБЪЕКТ ---
+    sf::CircleShape DebugShape(100.f);
+    DebugShape.setFillColor(sf::Color::Red);
+    DebugShape.setPosition({300.f, 200.f});
+    // ------------------------------------
+
+    while (Graphics->IsOpen())
     {
-        // Input->Update();
-        static uint32_t count = 0;
-        if (++count > 5) break;
+        Input->PollEvents(Graphics->GetWindow());
 
-        auto CurrentTick = Time::now();
+        if (Input->IsWillQuit()) break;
+
+        auto CurrentTick = FClock::now();
         Seconds DeltaTime = CurrentTick - LastTick;
         LastTick = CurrentTick;
 
         OnUpdate(DeltaTime.count());
 
-        std::cout << DeltaTime.count() << std::endl;
-
-        // Graphics->Begin();
-        // OnRender();
-        // Graphics->End();
+        Graphics->Begin();
+        OnRender();
+        Graphics->End();
     }
 
     return 0;

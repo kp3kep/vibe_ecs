@@ -22,6 +22,7 @@ public:
     void RegisterSystem();
 
     void Update(float InDeltaTime) const;
+    void Render(FGraphics& Graphics) const;
 
     void StressTest();
 
@@ -36,6 +37,6 @@ private:
 template <typename SystemType, std::enable_if_t<std::is_base_of_v<ISystemBase, SystemType>, bool>>
 void EWorld::RegisterSystem()
 {
-    SystemType* NewSystem = SystemManager.RegisterSystem<SystemType>();
+    SystemType* NewSystem = SystemManager.RegisterUpdateSystem<SystemType>();
     NewSystem->SetArchetypeManager(&ArchetypeManager);
 }

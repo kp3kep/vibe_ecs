@@ -16,8 +16,6 @@ public:
         ArchetypeManager->Query<ECS::Velocity>(
                     [InDeltaTime](ECS::Entity e, ECS::Velocity& velocity)
                     {
-                        velocity.dx += 0.0001f;
-                        velocity.dy += 0.0001f;
                     }
                 );
     }

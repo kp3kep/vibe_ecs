@@ -13,7 +13,8 @@ namespace Game
         ECS::EComponentFactory::RegisterComponent<ECS::Transform>();
         ECS::EComponentFactory::RegisterComponent<ECS::Velocity>();
         ECS::EComponentFactory::RegisterComponent<ECS::Health>();
-        ECS::EComponentFactory::RegisterComponent<ECS::Sprite>();
+        ECS::EComponentFactory::RegisterComponent<ECS::C_Sprite>();
+        ECS::EComponentFactory::RegisterComponent<ECS::C_PlayerInput>();
     }
 
     void EGame::OnBegin()
@@ -25,5 +26,10 @@ namespace Game
     void EGame::OnUpdate(float InDeltaTime)
     {
         World->Update(InDeltaTime);
+    }
+
+    void EGame::OnRender()
+    {
+        World->Render(*Graphics);
     }
 }

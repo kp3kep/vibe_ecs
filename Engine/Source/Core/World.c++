@@ -4,7 +4,11 @@
 
 #include "ComponentsList.h++"
 #include "HeathSystem.h++"
+#include "InputSystem.h++"
 #include "MovementSystem.h++"
+#include "PlayerControlSystem.h++"
+#include "RenderSystem.h++"
+#include "ResourceManager.h++"
 #include "VelocitySystem.h++"
 
 EWorld::EWorld()
@@ -12,14 +16,41 @@ EWorld::EWorld()
     SystemManager.SetPool(&ThreadPool);
     ArchetypeManager.SetPool(&ThreadPool);
 
-    RegisterSystem<EMovementSystem>();
     RegisterSystem<EHeathSystem>();
+    RegisterSystem<EInputSystem>();
+    RegisterSystem<EMovementSystem>();
+    RegisterSystem<EPlayerControlSystem>();
     RegisterSystem<EVelocitySystem>();
+
+    SystemManager.RegisterRenderSystem<ERenderSystem>();
 }
 
 void EWorld::Initialize()
 {
-    StressTest();
+    // StressTest();
+    std::shared_ptr<sf::Texture> HeroTexture = EResourceManager::Get().LoadTexture("hero.png");
+
+    if (!HeroTexture)
+    {
+        HeroTexture = std::make_shared<sf::Texture>();
+        auto size = HeroTexture->resize({32, 32});
+        std::vector<uint8_t> pixels(32 * 32 * 4, 255);
+        for (size_t i = 0; i < pixels.size(); i += 4)
+        {
+            pixels[i + 1] = 0;
+        }
+        HeroTexture->update(pixels.data());
+    }
+
+
+    // --- СОЗДАНИЕ ИГРОКА ---
+    const ECS::Entity Player = CreateEntity();
+    ArchetypeManager.RegisterEntity(Player);
+
+    ArchetypeManager.AddComponent(Player, ECS::Transform{100.f, 100.f});
+    ArchetypeManager.AddComponent(Player, ECS::Velocity{0.f, 0.f});
+    ArchetypeManager.AddComponent(Player, ECS::C_PlayerInput{0,0,false});
+    ArchetypeManager.AddComponent(Player, ECS::C_Sprite{ HeroTexture });
 }
 
 ECS::Entity EWorld::CreateEntity()
@@ -35,6 +66,11 @@ void EWorld::DestroyEntity(ECS::Entity EntityID)
 void EWorld::Update(float InDeltaTime) const
 {
     SystemManager.Update(InDeltaTime);
+}
+
+void EWorld::Render(FGraphics& Graphics) const
+{
+    SystemManager.Render(Graphics, const_cast<ECS::EArchetypeManager&>(ArchetypeManager));
 }
 
 void EWorld::StressTest()
@@ -61,7 +97,7 @@ void EWorld::StressTest()
         }
         if (i % 3)
         {
-            ArchetypeManager.AddComponent(NewEntity, ECS::Sprite{77});
+            ArchetypeManager.AddComponent(NewEntity, ECS::C_Sprite{});
         }
     }
 }

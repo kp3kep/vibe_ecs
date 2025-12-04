@@ -52,6 +52,9 @@ namespace ECS
         template<typename Write, typename... Reads, typename Func>
         void Query(Func&& QueryFunction);
 
+        template <typename... Reads, typename Func>
+        void QuerySync(Func&& QueryFunction);
+
         void SetPool(EThreadPool* ThreadPool) { Pool = ThreadPool;}
 
     private:
@@ -203,7 +206,9 @@ namespace ECS
         {
             // 3. Проверяем, содержит ли архетип все нужные компоненты
             if (!Component::ContainsSubset(Archetype->Key, QueryKey))
+            {
                 continue;
+            }
 
             auto ArchetypeJob = [Archetype, QueryFunction]()
             {
@@ -235,6 +240,31 @@ namespace ECS
         for (auto& Future : Futures)
         {
             Future.get();
+        }
+    }
+
+    template <typename ... Reads, typename Func>
+    void EArchetypeManager::QuerySync(Func&& QueryFunction)
+    {
+        const ComponentSet QueryKey = Component::MakeSet<Reads...>();
+
+        for (EArchetype* Archetype : ArchetypeList)
+        {
+            if (Component::ContainsSubset(Archetype->Key, QueryKey))
+            {
+                auto& Entities = Archetype->Entities;
+                // Собираем векторы
+                auto ReadVecsTuple = std::make_tuple(std::ref(Archetype->GetComponentVector<Reads>())...);
+
+                const size_t EntityCount = Entities.size();
+                for (size_t i = 0; i < EntityCount; ++i)
+                {
+                    std::apply([&](auto&... ReadVecs) {
+                        // Вызываем функцию прямо здесь
+                        QueryFunction(Entities[i], (static_cast<const Reads&>(ReadVecs[i]))...);
+                    }, ReadVecsTuple);
+                }
+            }
         }
     }
 } // namespace ECS
