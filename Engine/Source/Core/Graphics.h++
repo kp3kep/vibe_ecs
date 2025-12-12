@@ -9,9 +9,9 @@ class FGraphics
 public:
     FGraphics()
     {
-        Window.create(sf::VideoMode({800, 600}), "Vibe ECS Engine");
+        Window.create(sf::VideoMode({1024, 768}), "Vibe ECS Engine");
 
-        Window.setFramerateLimit(60);
+        Window.setFramerateLimit(100);
     }
 
     void Begin()

@@ -53,6 +53,8 @@ int IApplication::Run()
         Seconds DeltaTime = CurrentTick - LastTick;
         LastTick = CurrentTick;
 
+        std::cout << 1 / DeltaTime.count() << " FPS" << std::endl;
+
         OnUpdate(DeltaTime.count());
 
         Graphics->Begin();

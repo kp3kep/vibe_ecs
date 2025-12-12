@@ -6,6 +6,7 @@
 #include "SystemManager.h++"
 #include "EntityManager.h++"
 #include "ThreadPool.h++"
+#include "SFML/Graphics/Texture.hpp"
 
 class EWorld
 {
@@ -23,12 +24,15 @@ public:
 
     void Update(float InDeltaTime) const;
     void Render(FGraphics& Graphics) const;
-
-    void StressTest();
+    void CreatePlayer(const std::shared_ptr<sf::Texture>& InHeroTexture);
 
 private:
     ECS::EEntityManager EntityManager;
+
+public:
     ECS::EArchetypeManager ArchetypeManager;
+
+private:
     ESystemManager SystemManager;
 
     EThreadPool ThreadPool;

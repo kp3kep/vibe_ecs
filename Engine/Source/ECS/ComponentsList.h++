@@ -24,9 +24,16 @@ namespace ECS
     };
 
     // 1. Хранит "намерения" игрока
-    struct C_PlayerInput {
+    struct PlayerInput {
         float MoveX = 0.0f;
         float MoveY = 0.0f;
+        bool IsAttackPressed = false;
+    };
+
+    struct AIInput {
+        float MoveX = 0.0f;
+        float MoveY = 0.0f;
+        float TempTimer = 0.0f;
         bool IsAttackPressed = false;
     };
 

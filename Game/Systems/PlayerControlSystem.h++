@@ -5,7 +5,6 @@
 #include "Systems/SystemBase.h++"
 #include "ECS/ArchetypeManager.h++"
 #include "ECS/ComponentsList.h++"
-#include <cmath> // для std::sqrt
 
 class EPlayerControlSystem final : public ISystemBase
 {
@@ -20,8 +19,8 @@ public:
         constexpr float Speed = 200.0f; // Скорость пикселей в секунду
 
         // Читаем Input, Пишем в Velocity
-        ArchetypeManager->Query<ECS::Velocity, ECS::C_PlayerInput>(
-            [](ECS::Entity e, ECS::Velocity& Velocity, const ECS::C_PlayerInput& Input)
+        ArchetypeManager->Query<ECS::Velocity, ECS::PlayerInput>(
+            [](ECS::Entity e, ECS::Velocity& Velocity, const ECS::PlayerInput& Input)
             {
                 Velocity.dx = Input.MoveX * Speed;
                 Velocity.dy = Input.MoveY * Speed;

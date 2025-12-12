@@ -15,8 +15,8 @@ public:
         if (!ArchetypeManager) return;
 
         // Ищем всех, у кого есть компонент ввода (обычно это только игрок)
-        ArchetypeManager->Query<ECS::C_PlayerInput>(
-            [](ECS::Entity e, ECS::C_PlayerInput& Input)
+        ArchetypeManager->Query<ECS::PlayerInput>(
+            [](ECS::Entity e, ECS::PlayerInput& Input)
             {
                 Input.MoveX = 0.0f;
                 Input.MoveY = 0.0f;
