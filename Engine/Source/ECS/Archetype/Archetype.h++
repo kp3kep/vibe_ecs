@@ -17,7 +17,8 @@ namespace ECS
      * Он хранит все сущности, которые имеют *в точности* этот набор.
      * Данные хранятся в формате SoA (Structure of Arrays).
      */
-    class EArchetype {
+    class EArchetype
+    {
     public:
         /**
          * @param InKey Отсортированный вектор ComponentTypeId,

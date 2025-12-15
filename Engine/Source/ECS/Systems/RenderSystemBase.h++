@@ -2,13 +2,11 @@
 
 #pragma once
 
-// Вперед объявляем классы, от которых мы зависим
 class FGraphics;
 namespace ECS { class EArchetypeManager; }
 
 /**
- * @brief Базовый класс для всех СИСТЕМ ОТРІСОВКИ.
- * Они запускаются отдельно от систем логики (ISystemBase).
+ * @brief Базовый класс для всех СИСТЕМ ОТРИСОВКИ.
  */
 class IRenderSystemBase
 {

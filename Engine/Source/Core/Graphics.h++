@@ -16,7 +16,7 @@ public:
 
     void Begin()
     {
-        Window.clear(sf::Color::Black); // Классический черный фон
+        Window.clear(sf::Color::White); // Классический черный фон
     }
 
     void End()

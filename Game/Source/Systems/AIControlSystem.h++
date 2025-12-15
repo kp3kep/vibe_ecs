@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "Systems/SystemBase.h++"
-#include "ECS/ArchetypeManager.h++"
-#include "ECS/ComponentsList.h++"
+#include "SystemBase.h++"
+#include "ArchetypeManager.h++"
+#include "ComponentsList.h++"
 
-class EPlayerControlSystem final : public ISystemBase
+class EAIControlSystem final : public ISystemBase
 {
 public:
     void Update(float InDeltaTime) override
@@ -19,8 +19,8 @@ public:
         constexpr float Speed = 200.0f; // Скорость пикселей в секунду
 
         // Читаем Input, Пишем в Velocity
-        ArchetypeManager->Query<ECS::Velocity, ECS::PlayerInput>(
-            [](ECS::Entity e, ECS::Velocity& Velocity, const ECS::PlayerInput& Input)
+        ArchetypeManager->Query<ECS::Velocity, ECS::AIInput>(
+            [](ECS::Entity e, ECS::Velocity& Velocity, const ECS::AIInput& Input)
             {
                 Velocity.dx = Input.MoveX * Speed;
                 Velocity.dy = Input.MoveY * Speed;

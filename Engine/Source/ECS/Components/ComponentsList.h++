@@ -24,20 +24,23 @@ namespace ECS
     };
 
     // 1. Хранит "намерения" игрока
-    struct PlayerInput {
+    struct PlayerInput
+    {
         float MoveX = 0.0f;
         float MoveY = 0.0f;
         bool IsAttackPressed = false;
     };
 
-    struct AIInput {
+    struct AIInput
+    {
         float MoveX = 0.0f;
         float MoveY = 0.0f;
         float TempTimer = 0.0f;
         bool IsAttackPressed = false;
     };
 
-    struct C_Sprite {
+    struct C_Sprite
+    {
         std::shared_ptr<sf::Texture> Texture;
         // Можно добавить: sf::IntRect TextureRect; (для анимации)
         // Можно добавить: float Scale;

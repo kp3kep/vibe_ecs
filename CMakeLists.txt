@@ -19,9 +19,15 @@ target_include_directories(Engine_ECS PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/Engine/Source"
         "${CMAKE_CURRENT_SOURCE_DIR}/Engine/Source/Core"
         "${CMAKE_CURRENT_SOURCE_DIR}/Engine/Source/ECS"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Engine/Source/Systems"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Engine/Source/ECS/Archetype"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Engine/Source/ECS/Components"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Engine/Source/ECS/Framework"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Engine/Source/ECS/Systems"
+
         "${CMAKE_CURRENT_SOURCE_DIR}/Game/Source"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Game/Systems"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Game/Source/Components"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Game/Source/Core"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Game/Source/Systems"
 )
 
 target_link_libraries(Engine_ECS PUBLIC

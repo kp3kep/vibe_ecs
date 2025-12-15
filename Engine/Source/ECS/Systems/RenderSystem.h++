@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "Systems/RenderSystemBase.h++"
-#include "Core/Graphics.h++"
-#include "ECS/ArchetypeManager.h++"
-#include "ECS/ComponentsList.h++"
+#include "RenderSystemBase.h++"
+#include "Graphics.h++"
+#include "ArchetypeManager.h++"
+#include "ComponentsList.h++"
 
 #include "SFML/Graphics/Sprite.hpp"
 

@@ -2,9 +2,10 @@
 
 #pragma once
 
-#include "Systems/SystemBase.h++"
-#include "ECS/ArchetypeManager.h++"
-#include "ECS/ComponentsList.h++"
+#include "ArchetypeManager.h++"
+#include "ComponentsList.h++"
+#include "SystemBase.h++"
+
 #include "SFML/Window/Keyboard.hpp"
 
 class EInputSystem final : public ISystemBase

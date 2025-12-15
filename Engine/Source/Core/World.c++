@@ -56,8 +56,8 @@ void EWorld::CreatePlayer(const std::shared_ptr<sf::Texture>& InHeroTexture)
     const ECS::Entity Player = CreateEntity();
     ArchetypeManager.RegisterEntity(Player);
 
-    ArchetypeManager.AddComponent(Player, ECS::Transform{100.f, 100.f});
-    ArchetypeManager.AddComponent(Player, ECS::Velocity{0.f, 0.f});
-    ArchetypeManager.AddComponent(Player, ECS::PlayerInput{0,0,false});
-    ArchetypeManager.AddComponent(Player, ECS::C_Sprite{ InHeroTexture });
+    ArchetypeManager.AddComponent(Player, ECS::Transform {100.f, 100.f});
+    ArchetypeManager.AddComponent(Player, ECS::Velocity {0.f, 0.f});
+    ArchetypeManager.AddComponent(Player, ECS::PlayerInput {0,0,false});
+    ArchetypeManager.AddComponent(Player, ECS::C_Sprite { InHeroTexture });
 }

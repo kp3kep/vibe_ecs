@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "Systems/SystemBase.h++"
-#include "ECS/ArchetypeManager.h++"
-#include "ECS/ComponentsList.h++"
+#include "SystemBase.h++"
+#include "ArchetypeManager.h++"
+#include "ComponentsList.h++"
 
 class EAIInputSystem final : public ISystemBase
 {
