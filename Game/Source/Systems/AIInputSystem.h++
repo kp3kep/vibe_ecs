@@ -4,9 +4,9 @@
 
 #include "SystemBase.h++"
 #include "ArchetypeManager.h++"
-#include "ComponentsList.h++"
+#include "EngineComponents.h++"
 
-class EAIInputSystem final : public ISystemBase
+class SAIInputSystem final : public ISystemBase
 {
 public:
     void Update(float InDeltaTime) override
@@ -17,8 +17,8 @@ public:
         }
 
         // Ищем всех, у кого есть компонент ввода (обычно это только игрок)
-        ArchetypeManager->Query<ECS::AIInput>(
-            [](ECS::Entity e, ECS::AIInput& Input)
+        ArchetypeManager->Query<ECS::CAIInput>(
+            [](ECS::Entity e, ECS::CAIInput& Input)
             {
                 Input.TempTimer += 0.01;
                 if (Input.TempTimer >= 0.5)

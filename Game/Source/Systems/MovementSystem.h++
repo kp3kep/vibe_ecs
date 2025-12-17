@@ -6,18 +6,18 @@
 #include <iostream>
 
 #include "ArchetypeManager.h++"
-#include "ComponentsList.h++"
+#include "EngineComponents.h++"
 #include "SystemBase.h++"
 
-class EMovementSystem final : public ISystemBase
+class SMovementSystem final : public ISystemBase
 {
 public:
-    EMovementSystem() = default;
+    SMovementSystem() = default;
 
     void Update(float InDeltaTime) override
     {
-        ArchetypeManager->Query<ECS::Transform, ECS::Velocity>(
-                    [InDeltaTime](ECS::Entity, ECS::Transform& Transform, const ECS::Velocity& Velocity)
+        ArchetypeManager->Query<ECS::CTransform, ECS::CVelocity>(
+                    [InDeltaTime](ECS::Entity, ECS::CTransform& Transform, const ECS::CVelocity& Velocity)
                     {
                         Transform.x += Velocity.dx * InDeltaTime;
                         Transform.y += Velocity.dy * InDeltaTime;

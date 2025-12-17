@@ -4,7 +4,7 @@
 
 #include "SystemBase.h++"
 
-void ESystemManager::Update(float InDeltaTime) const
+void FSystemManager::Update(float InDeltaTime) const
 {
     for (auto& System : UpdateSystems)
     {
@@ -12,7 +12,7 @@ void ESystemManager::Update(float InDeltaTime) const
     }
 }
 
-void ESystemManager::Render(FGraphics& Graphics, ECS::EArchetypeManager& ArchetypeManager) const
+void FSystemManager::Render(FGraphics& Graphics, ECS::FArchetypeManager& ArchetypeManager) const
 {
     for (auto& System : RenderSystems)
     {

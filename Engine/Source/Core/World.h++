@@ -27,13 +27,13 @@ public:
     void CreatePlayer(const std::shared_ptr<sf::Texture>& InHeroTexture);
 
 private:
-    ECS::EEntityManager EntityManager;
+    ECS::FEntityManager EntityManager;
 
 public:
-    ECS::EArchetypeManager ArchetypeManager;
+    ECS::FArchetypeManager ArchetypeManager;
 
 private:
-    ESystemManager SystemManager;
+    FSystemManager SystemManager;
 
     EThreadPool ThreadPool;
 };

@@ -7,7 +7,7 @@
 #include "SystemBase.h++"
 #include "World.h++"
 
-class ELifetimeSystem final : public ISystemBase
+class SLifetimeSystem final : public ISystemBase
 {
 public:
     void Update(float InDeltaTime) override

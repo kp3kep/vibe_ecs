@@ -6,32 +6,32 @@
 
 namespace ECS
 {
-    struct Transform
+    struct CTransform
     {
         float x;
         float y;
     };
 
-    struct Velocity
+    struct CVelocity
     {
         float dx;
         float dy;
     };
 
-    struct Health
+    struct CHealth
     {
         float hp;
     };
 
     // 1. Хранит "намерения" игрока
-    struct PlayerInput
+    struct CPlayerInput
     {
         float MoveX = 0.0f;
         float MoveY = 0.0f;
         bool IsAttackPressed = false;
     };
 
-    struct AIInput
+    struct CAIInput
     {
         float MoveX = 0.0f;
         float MoveY = 0.0f;
@@ -39,7 +39,7 @@ namespace ECS
         bool IsAttackPressed = false;
     };
 
-    struct C_Sprite
+    struct CSprite
     {
         std::shared_ptr<sf::Texture> Texture;
         // Можно добавить: sf::IntRect TextureRect; (для анимации)

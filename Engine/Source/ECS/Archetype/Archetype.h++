@@ -17,18 +17,18 @@ namespace ECS
      * Он хранит все сущности, которые имеют *в точности* этот набор.
      * Данные хранятся в формате SoA (Structure of Arrays).
      */
-    class EArchetype
+    class FArchetype
     {
     public:
         /**
          * @param InKey Отсортированный вектор ComponentTypeId,
          * определяющий этот архетип.
          */
-        explicit EArchetype(const ComponentSet& InKey);
+        explicit FArchetype(const ComponentSet& InKey);
 
         // Запрещаем копирование, разрешаем только перемещение
-        EArchetype(const EArchetype&) = delete;
-        EArchetype& operator=(const EArchetype&) = delete;
+        FArchetype(const FArchetype&) = delete;
+        FArchetype& operator=(const FArchetype&) = delete;
 
         /**
          * @brief Добавляет сущность в этот архетип,
@@ -59,17 +59,17 @@ namespace ECS
         std::vector<Entity> Entities;
         std::unordered_map<ComponentTypeId, std::unique_ptr<IComponentVector>> ComponentsMap;
 
-        friend class EArchetypeManager;
+        friend class FArchetypeManager;
     };
 
     template <typename T>
-    std::vector<T>& EArchetype::GetComponentVector()
+    std::vector<T>& FArchetype::GetComponentVector()
     {
         const ComponentTypeId TypeId = Component::TypeId<T>();
         // TODO: Мы используем .at() для проверки в debug-сборках, что компонент действительно существует
         IComponentVector* AbstractVector = ComponentsMap.at(TypeId).get();
 
-        auto* ComponentVector = static_cast<EComponentVector<T>*>(AbstractVector);
+        auto* ComponentVector = static_cast<FComponentVector<T>*>(AbstractVector);
         return ComponentVector->Data;
     }
 } // namespace ECS

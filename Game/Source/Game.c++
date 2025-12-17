@@ -3,41 +3,41 @@
 #include <memory>
 
 #include "ComponentFactory.h++"
-#include "ComponentsList.h++"
+#include "EngineComponents.h++"
 #include "Game.h++"
 
 #include "ResourceManager.h++"
 
 namespace Game
 {
-    EGame::EGame()
+    FGame::FGame()
     {
-        ECS::EComponentFactory::RegisterComponent<ECS::Transform>();
-        ECS::EComponentFactory::RegisterComponent<ECS::Velocity>();
-        ECS::EComponentFactory::RegisterComponent<ECS::Health>();
-        ECS::EComponentFactory::RegisterComponent<ECS::C_Sprite>();
-        ECS::EComponentFactory::RegisterComponent<ECS::PlayerInput>();
-        ECS::EComponentFactory::RegisterComponent<ECS::AIInput>();
+        ECS::FComponentFactory::RegisterComponent<ECS::CTransform>();
+        ECS::FComponentFactory::RegisterComponent<ECS::CVelocity>();
+        ECS::FComponentFactory::RegisterComponent<ECS::CHealth>();
+        ECS::FComponentFactory::RegisterComponent<ECS::CSprite>();
+        ECS::FComponentFactory::RegisterComponent<ECS::CPlayerInput>();
+        ECS::FComponentFactory::RegisterComponent<ECS::CAIInput>();
     }
 
-    void EGame::OnBegin()
+    void FGame::OnBegin()
     {
         World = std::make_unique<EWorld>();
         World->Initialize();
         CreatePlayer();
     }
 
-    void EGame::OnUpdate(float InDeltaTime)
+    void FGame::OnUpdate(float InDeltaTime)
     {
         World->Update(InDeltaTime);
     }
 
-    void EGame::OnRender()
+    void FGame::OnRender()
     {
         World->Render(*Graphics);
     }
 
-    void EGame::CreatePlayer()
+    void FGame::CreatePlayer()
     {
         std::shared_ptr<sf::Texture> HeroTexture = EResourceManager::Get().LoadTexture("hero.png");
         World->CreatePlayer(HeroTexture);

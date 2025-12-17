@@ -9,10 +9,10 @@
 
 namespace Game
 {
-    class EGame final : public IApplication
+    class FGame final : public IApplication
     {
     public:
-        EGame();
+        FGame();
 
         void OnBegin() override;
         void OnUpdate(float InDeltaTime) override;

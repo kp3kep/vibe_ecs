@@ -4,7 +4,7 @@
 
 namespace ECS
 {
-    Entity EEntityManager::CreateEntity()
+    Entity FEntityManager::CreateEntity()
     {
         uint32_t Index;
         if (FreeIndices.empty())
@@ -21,7 +21,7 @@ namespace ECS
         return MakeEntity(Index, GenerationByIndex[Index]);
     }
 
-    bool EEntityManager::IsAlive(Entity InEntity) const
+    bool FEntityManager::IsAlive(Entity InEntity) const
     {
         const uint32_t EntityIndex = GetEntityIndex(InEntity);
 
@@ -35,7 +35,7 @@ namespace ECS
         return false;
     }
 
-    void EEntityManager::Destroy(Entity InEntity)
+    void FEntityManager::Destroy(Entity InEntity)
     {
         const uint32_t EntityIndex = GetEntityIndex(InEntity);
         if (EntityIndex >= GenerationByIndex.size())

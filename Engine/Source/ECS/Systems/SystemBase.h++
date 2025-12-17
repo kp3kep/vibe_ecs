@@ -4,7 +4,7 @@
 
 namespace ECS
 {
-    class EArchetypeManager;
+    class FArchetypeManager;
 }
 
 class ISystemBase
@@ -13,11 +13,11 @@ public:
     virtual ~ISystemBase() = default;
     virtual void Update(float) = 0;
 
-    void SetArchetypeManager(ECS::EArchetypeManager* InArchManager)
+    void SetArchetypeManager(ECS::FArchetypeManager* InArchManager)
     {
         ArchetypeManager = InArchManager;
     }
 
 protected:
-    ECS::EArchetypeManager* ArchetypeManager = nullptr;
+    ECS::FArchetypeManager* ArchetypeManager = nullptr;
 };

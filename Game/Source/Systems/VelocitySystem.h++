@@ -3,18 +3,18 @@
 #pragma once
 
 #include "ArchetypeManager.h++"
-#include "ComponentsList.h++"
+#include "EngineComponents.h++"
 #include "SystemBase.h++"
 
-class EVelocitySystem final : public ISystemBase
+class SVelocitySystem final : public ISystemBase
 {
 public:
-    EVelocitySystem() = default;
+    SVelocitySystem() = default;
 
     void Update(float InDeltaTime) override
     {
-        ArchetypeManager->Query<ECS::Velocity>(
-                    [InDeltaTime](ECS::Entity e, ECS::Velocity& velocity)
+        ArchetypeManager->Query<ECS::CVelocity>(
+                    [InDeltaTime](ECS::Entity e, ECS::CVelocity& velocity)
                     {
                     }
                 );

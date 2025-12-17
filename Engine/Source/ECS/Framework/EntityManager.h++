@@ -10,7 +10,7 @@ namespace ECS
     using Entity = uint32_t;
 
 
-    class EEntityManager
+    class FEntityManager
     {
     public:
         // Константы для упаковки/распаковки сущности внутри менеджера

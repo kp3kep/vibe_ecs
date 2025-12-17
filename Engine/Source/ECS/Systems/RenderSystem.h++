@@ -5,20 +5,20 @@
 #include "RenderSystemBase.h++"
 #include "Graphics.h++"
 #include "ArchetypeManager.h++"
-#include "ComponentsList.h++"
+#include "EngineComponents.h++"
 
 #include "SFML/Graphics/Sprite.hpp"
 
-class ERenderSystem final : public IRenderSystemBase
+class SRenderSystem final : public IRenderSystemBase
 {
 public:
-    void OnRender(FGraphics& Graphics, ECS::EArchetypeManager& ArchetypeManager) override
+    void OnRender(FGraphics& Graphics, ECS::FArchetypeManager& ArchetypeManager) override
     {
         sf::RenderWindow& Window = Graphics.GetWindow();
 
         // Запрос: Рисуем все, у чего есть Трансформ и Спрайт
-        ArchetypeManager.QuerySync<ECS::Transform, ECS::C_Sprite>(
-            [&](ECS::Entity InEntity, const ECS::Transform& InTransform, const ECS::C_Sprite& InSprite)
+        ArchetypeManager.QuerySync<ECS::CTransform, ECS::CSprite>(
+            [&](ECS::Entity InEntity, const ECS::CTransform& InTransform, const ECS::CSprite& InSprite)
             {
                 // Если текстура загружена - рисуем
                 if (InSprite.Texture)

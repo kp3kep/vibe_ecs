@@ -7,18 +7,18 @@
 
 namespace ECS
 {
-    EArchetype::EArchetype(const ComponentSet& InKey): Key(InKey)
+    FArchetype::FArchetype(const ComponentSet& InKey): Key(InKey)
     {
         for (ComponentTypeId TypeId = 0; TypeId < MAX_COMPONENTS; ++TypeId)
         {
             if (Key.test(TypeId))
             {
-                ComponentsMap[TypeId] = EComponentFactory::CreateVector(TypeId);
+                ComponentsMap[TypeId] = FComponentFactory::CreateVector(TypeId);
             }
         }
     }
 
-    uint32_t EArchetype::AddEntity(Entity NewEntity)
+    uint32_t FArchetype::AddEntity(Entity NewEntity)
     {
         const auto NewRow = static_cast<uint32_t>(Entities.size());
         Entities.push_back(NewEntity);
@@ -33,7 +33,7 @@ namespace ECS
         return NewRow;
     }
 
-    Entity EArchetype::RemoveEntity(uint32_t InRowIndex)
+    Entity FArchetype::RemoveEntity(uint32_t InRowIndex)
     {
         Entity MovedEntity = 0;
         const auto LastRow = static_cast<uint32_t>(Entities.size() - 1);

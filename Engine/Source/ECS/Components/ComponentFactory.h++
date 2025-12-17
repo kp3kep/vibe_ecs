@@ -10,16 +10,16 @@
 
 namespace ECS
 {
-    class EComponentFactory
+    class FComponentFactory
     {
     public:
-        template<typename T>
+        template <typename T>
         static void RegisterComponent()
         {
             const ComponentTypeId TypeId = Component::TypeId<T>();
-            GetComponentFactory()[TypeId] = []()->std::unique_ptr<IComponentVector>
+            GetComponentFactory()[TypeId] = []()-> std::unique_ptr<IComponentVector>
             {
-                return std::make_unique<EComponentVector<T>>();
+                return std::make_unique<FComponentVector<T>>();
             };
         }
 
@@ -37,7 +37,8 @@ namespace ECS
         }
 
     private:
-        static std::unordered_map<ComponentTypeId, std::function<std::unique_ptr<IComponentVector>()>>& GetComponentFactory()
+        static std::unordered_map<ComponentTypeId, std::function<std::unique_ptr<IComponentVector>()>>&
+        GetComponentFactory()
         {
             static std::unordered_map<ComponentTypeId, std::function<std::unique_ptr<IComponentVector>()>> Factories;
             return Factories;

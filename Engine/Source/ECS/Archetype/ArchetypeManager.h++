@@ -14,10 +14,10 @@
 
 namespace ECS
 {
-    class EArchetypeManager
+    class FArchetypeManager
     {
     public:
-        EArchetypeManager();
+        FArchetypeManager();
 
         void RegisterEntity(Entity InEntity);
         void UnregisterEntity(Entity InEntity);
@@ -58,37 +58,37 @@ namespace ECS
         void SetPool(EThreadPool* ThreadPool) { Pool = ThreadPool;}
 
     private:
-        EArchetype* GetOrCreateArchetype(const ComponentSet& key);
+        FArchetype* GetOrCreateArchetype(const ComponentSet& key);
         void EnsureRecordSize(uint32_t NewSize);
 
     private:
         struct EntityRecord
         {
-            EArchetype* Archetype = nullptr;
+            FArchetype* Archetype = nullptr;
             uint32_t Row = 0;
         };
 
         std::vector<EntityRecord> EntityRecords;
-        std::unordered_map<ComponentSet, std::unique_ptr<EArchetype>> Archetypes;
-        std::vector<EArchetype*> ArchetypeList;
-        EArchetype* RootArchetype;
+        std::unordered_map<ComponentSet, std::unique_ptr<FArchetype>> Archetypes;
+        std::vector<FArchetype*> ArchetypeList;
+        FArchetype* RootArchetype;
 
         EThreadPool* Pool = nullptr;
     };
 
     template <typename T>
-    T& EArchetypeManager::AddComponent(Entity InEntity, T InComponent)
+    T& FArchetypeManager::AddComponent(Entity InEntity, T InComponent)
     {
-        const uint32_t EntityIndex = EEntityManager::GetEntityIndex(InEntity);
+        const uint32_t EntityIndex = FEntityManager::GetEntityIndex(InEntity);
         EntityRecord& Record = EntityRecords[EntityIndex];
-        EArchetype* FromArchetype = Record.Archetype;
+        FArchetype* FromArchetype = Record.Archetype;
         const uint32_t FromRow = Record.Row;
 
         // 1. Вычисляем ключ нового архетипа
         const ComponentSet ToKey = Component::SetUnion(FromArchetype->Key, Component::TypeId<T>());
 
         // 2. Находим или создаем целевой архетип
-        EArchetype* ToArchetype = GetOrCreateArchetype(ToKey);
+        FArchetype* ToArchetype = GetOrCreateArchetype(ToKey);
 
         // 3. Добавляем сущность в новый архетип (создает пустые слоты)
         const uint32_t ToRow = ToArchetype->AddEntity(InEntity);
@@ -113,7 +113,7 @@ namespace ECS
         // 7. Обновляем запись для перемещенной сущности
         if (MovedEntity != 0)
         {
-            EntityRecords[EEntityManager::GetEntityIndex(MovedEntity)] = { FromArchetype, FromRow };
+            EntityRecords[FEntityManager::GetEntityIndex(MovedEntity)] = { FromArchetype, FromRow };
         }
 
         // 8. Обновляем запись для *нашей* сущности
@@ -123,18 +123,18 @@ namespace ECS
     }
 
     template <typename T>
-    void EArchetypeManager::RemoveComponent(Entity InEntity)
+    void FArchetypeManager::RemoveComponent(Entity InEntity)
     {
-        const uint32_t EntityIndex = EEntityManager::GetEntityIndex(InEntity);
+        const uint32_t EntityIndex = FEntityManager::GetEntityIndex(InEntity);
         EntityRecord& Record = EntityRecords[EntityIndex];
-        EArchetype* FromArchetype = Record.Archetype;
+        FArchetype* FromArchetype = Record.Archetype;
         const uint32_t FromRow = Record.Row;
 
         // 1. Вычисляем ключ нового архетипа
         const ComponentSet ToKey = SetSubtract(FromArchetype->Key, Component::TypeId<T>());
 
         // 2. Находим или создаем целевой архетип
-        EArchetype* ToArchetype = GetOrCreateArchetype(ToKey);
+        FArchetype* ToArchetype = GetOrCreateArchetype(ToKey);
 
         // 3. Добавляем сущность в новый архетип
         const uint32_t ToRow = ToArchetype->AddEntity(InEntity);
@@ -157,7 +157,7 @@ namespace ECS
         // 6. Обновляем запись для перемещенной сущности
         if (MovedEntity != 0)
         {
-            EntityRecords[EEntityManager::GetEntityIndex(MovedEntity)] = { FromArchetype, FromRow };
+            EntityRecords[FEntityManager::GetEntityIndex(MovedEntity)] = { FromArchetype, FromRow };
         }
 
         // 7. Обновляем запись для *нашей* сущности
@@ -165,9 +165,9 @@ namespace ECS
     }
 
     template <typename T>
-    T& EArchetypeManager::GetComponent(Entity InEntity)
+    T& FArchetypeManager::GetComponent(Entity InEntity)
     {
-        const uint32_t EntityIndex = EEntityManager::GetEntityIndex(InEntity);
+        const uint32_t EntityIndex = FEntityManager::GetEntityIndex(InEntity);
         // Тут хорошо бы добавить ассерты для отладки
         assert(EntityIndex < EntityRecords.size() && "Entity index out of bounds");
         auto& [Archetype, Row] = EntityRecords[EntityIndex];
@@ -177,9 +177,9 @@ namespace ECS
     }
 
     template <typename T>
-    bool EArchetypeManager::HasComponent(Entity InEntity) const
+    bool FArchetypeManager::HasComponent(Entity InEntity) const
     {
-        const uint32_t EntityIndex = EEntityManager::GetEntityIndex(InEntity);
+        const uint32_t EntityIndex = FEntityManager::GetEntityIndex(InEntity);
         if (EntityIndex >= EntityRecords.size())
         {
             return false;
@@ -195,14 +195,14 @@ namespace ECS
     }
 
     template <typename Write, typename... Reads, typename Func>
-    void EArchetypeManager::Query(Func&& QueryFunction)
+    void FArchetypeManager::Query(Func&& QueryFunction)
     {
         // 1. Создаем ключ запроса (один раз)
         const ComponentSet QueryKey = Component::MakeSet<Write, Reads...>();
         std::vector<std::future<void>> Futures;
 
         // 2. Итерируемся по плоскому списку архетипов
-        for (EArchetype* Archetype : ArchetypeList)
+        for (FArchetype* Archetype : ArchetypeList)
         {
             // 3. Проверяем, содержит ли архетип все нужные компоненты
             if (!Component::ContainsSubset(Archetype->Key, QueryKey))
@@ -244,11 +244,11 @@ namespace ECS
     }
 
     template <typename ... Reads, typename Func>
-    void EArchetypeManager::QuerySync(Func&& QueryFunction)
+    void FArchetypeManager::QuerySync(Func&& QueryFunction)
     {
         const ComponentSet QueryKey = Component::MakeSet<Reads...>();
 
-        for (EArchetype* Archetype : ArchetypeList)
+        for (FArchetype* Archetype : ArchetypeList)
         {
             if (Component::ContainsSubset(Archetype->Key, QueryKey))
             {

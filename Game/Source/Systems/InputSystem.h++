@@ -3,12 +3,12 @@
 #pragma once
 
 #include "ArchetypeManager.h++"
-#include "ComponentsList.h++"
+#include "EngineComponents.h++"
 #include "SystemBase.h++"
 
 #include "SFML/Window/Keyboard.hpp"
 
-class EInputSystem final : public ISystemBase
+class SInputSystem final : public ISystemBase
 {
 public:
     void Update(float InDeltaTime) override
@@ -16,8 +16,8 @@ public:
         if (!ArchetypeManager) return;
 
         // Ищем всех, у кого есть компонент ввода (обычно это только игрок)
-        ArchetypeManager->Query<ECS::PlayerInput>(
-            [](ECS::Entity e, ECS::PlayerInput& Input)
+        ArchetypeManager->Query<ECS::CPlayerInput>(
+            [](ECS::Entity e, ECS::CPlayerInput& Input)
             {
                 Input.MoveX = 0.0f;
                 Input.MoveY = 0.0f;

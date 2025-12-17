@@ -9,10 +9,10 @@
 #include "RenderSystemBase.h++"
 #include "ThreadPool.h++"
 
-class ESystemManager
+class FSystemManager
 {
 public:
-    ESystemManager() = default;
+    FSystemManager() = default;
 
     template<typename SystemType, typename std::enable_if_t<std::is_base_of_v<ISystemBase, SystemType>, bool> = true>
     SystemType* RegisterUpdateSystem();
@@ -21,7 +21,7 @@ public:
     void RegisterRenderSystem();
 
     void Update(float InDeltaTime) const;
-    void Render(FGraphics& Graphics, ECS::EArchetypeManager& ArchetypeManager) const;
+    void Render(FGraphics& Graphics, ECS::FArchetypeManager& ArchetypeManager) const;
 
     void SetPool(EThreadPool* ThreadPool) { Pool = ThreadPool; }
 
@@ -33,7 +33,7 @@ private:
 };
 
 template <typename SystemType, typename std::enable_if_t<std::is_base_of_v<ISystemBase, SystemType>, bool>>
-SystemType* ESystemManager::RegisterUpdateSystem()
+SystemType* FSystemManager::RegisterUpdateSystem()
 {
     auto System = std::make_unique<SystemType>();
     SystemType* RawPtr = System.get();
@@ -42,7 +42,7 @@ SystemType* ESystemManager::RegisterUpdateSystem()
 }
 
 template <typename RenderSystemType, std::enable_if_t<std::is_base_of_v<IRenderSystemBase, RenderSystemType>, bool>>
-void ESystemManager::RegisterRenderSystem()
+void FSystemManager::RegisterRenderSystem()
 {
     auto System = std::make_unique<RenderSystemType>();
     RenderSystems.push_back(std::move(System));

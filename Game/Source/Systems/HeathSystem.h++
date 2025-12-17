@@ -3,18 +3,18 @@
 #pragma once
 
 #include "ArchetypeManager.h++"
-#include "ComponentsList.h++"
+#include "EngineComponents.h++"
 #include "SystemBase.h++"
 
-class EHeathSystem final : public ISystemBase
+class SHeathSystem final : public ISystemBase
 {
 public:
-    EHeathSystem() = default;
+    SHeathSystem() = default;
 
     void Update(float InDeltaTime) override
     {
-        ArchetypeManager->Query<ECS::Health>(
-                    [InDeltaTime](ECS::Entity e, ECS::Health hp)
+        ArchetypeManager->Query<ECS::CHealth>(
+                    [InDeltaTime](ECS::Entity e, ECS::CHealth hp)
                     {
                         hp.hp -= InDeltaTime;
                     }

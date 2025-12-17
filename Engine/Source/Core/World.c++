@@ -16,15 +16,15 @@ EWorld::EWorld()
     SystemManager.SetPool(&ThreadPool);
     ArchetypeManager.SetPool(&ThreadPool);
 
-    RegisterSystem<EHeathSystem>();
-    RegisterSystem<EInputSystem>();
-    RegisterSystem<EAIInputSystem>();
-    RegisterSystem<EMovementSystem>();
-    RegisterSystem<EPlayerControlSystem>();
-    RegisterSystem<EAIControlSystem>();
-    RegisterSystem<EVelocitySystem>();
+    RegisterSystem<SHeathSystem>();
+    RegisterSystem<SInputSystem>();
+    RegisterSystem<SAIInputSystem>();
+    RegisterSystem<SMovementSystem>();
+    RegisterSystem<SPlayerControlSystem>();
+    RegisterSystem<SAIControlSystem>();
+    RegisterSystem<SVelocitySystem>();
 
-    SystemManager.RegisterRenderSystem<ERenderSystem>();
+    SystemManager.RegisterRenderSystem<SRenderSystem>();
 }
 
 void EWorld::Initialize()
@@ -48,7 +48,7 @@ void EWorld::Update(float InDeltaTime) const
 
 void EWorld::Render(FGraphics& Graphics) const
 {
-    SystemManager.Render(Graphics, const_cast<ECS::EArchetypeManager&>(ArchetypeManager));
+    SystemManager.Render(Graphics, const_cast<ECS::FArchetypeManager&>(ArchetypeManager));
 }
 
 void EWorld::CreatePlayer(const std::shared_ptr<sf::Texture>& InHeroTexture)
@@ -56,8 +56,8 @@ void EWorld::CreatePlayer(const std::shared_ptr<sf::Texture>& InHeroTexture)
     const ECS::Entity Player = CreateEntity();
     ArchetypeManager.RegisterEntity(Player);
 
-    ArchetypeManager.AddComponent(Player, ECS::Transform {100.f, 100.f});
-    ArchetypeManager.AddComponent(Player, ECS::Velocity {0.f, 0.f});
-    ArchetypeManager.AddComponent(Player, ECS::PlayerInput {0,0,false});
-    ArchetypeManager.AddComponent(Player, ECS::C_Sprite { InHeroTexture });
+    ArchetypeManager.AddComponent(Player, ECS::CTransform {100.f, 100.f});
+    ArchetypeManager.AddComponent(Player, ECS::CVelocity {0.f, 0.f});
+    ArchetypeManager.AddComponent(Player, ECS::CPlayerInput {0,0,false});
+    ArchetypeManager.AddComponent(Player, ECS::CSprite { InHeroTexture });
 }

@@ -3,7 +3,7 @@
 #pragma once
 
 class FGraphics;
-namespace ECS { class EArchetypeManager; }
+namespace ECS { class FArchetypeManager; }
 
 /**
  * @brief Базовый класс для всех СИСТЕМ ОТРИСОВКИ.
@@ -18,5 +18,5 @@ public:
      * @param Graphics - Наша обертка для SFML (чтобы знать, *где* рисовать)
      * @param ArchetypeManager - Наш ECS (чтобы знать, *что* рисовать)
      */
-    virtual void OnRender(FGraphics& Graphics, ECS::EArchetypeManager& ArchetypeManager) = 0;
+    virtual void OnRender(FGraphics& Graphics, ECS::FArchetypeManager& ArchetypeManager) = 0;
 };
